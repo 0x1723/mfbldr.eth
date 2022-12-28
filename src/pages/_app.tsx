@@ -18,7 +18,7 @@ const { chains, provider } = configureChains(
 )
 
 const { connectors } = getDefaultWallets({
-  appName: 'lilnouns.eth',
+  appName: 'mfbldr.eth',
   chains,
 })
 
@@ -34,7 +34,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <ThorinGlobalStyles />
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider chains={chains}>
-          <PlausibleProvider domain={'lil.domains'} trackOutboundLinks>
+          <PlausibleProvider domain={'domains.mfbldr.org'} trackOutboundLinks>
             <Component {...pageProps} />
           </PlausibleProvider>
         </RainbowKitProvider>
