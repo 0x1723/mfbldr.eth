@@ -8,7 +8,7 @@ export default function Gallery({ nfts, tokenId, setTokenId }: NftGrid) {
   const nftsIds = nfts?.map((nft) => nft.tokenId)
 
   const { data: domains } = useContractRead({
-    addressOrName: '0x27c4f6ff6935537c9cc05f4eb40e666d8f328918',
+    addressOrName: '0xa3d2BDC03A0e7Fd1641e9D718d80E1C1300Eb5F9',
     contractInterface: abi,
     functionName: 'getTokensDomains',
     args: [nftsIds],
