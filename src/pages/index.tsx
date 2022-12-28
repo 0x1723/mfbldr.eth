@@ -30,7 +30,7 @@ const Home: NextPage = () => {
 
   const [name, setName] = useState('')
   const [tokenId, setTokenId] = useState<TokenId>(null)
-  const [lilnouns, setLilnouns] = useState<Nft[]>()
+  const [mfbldrs, setMfbldrs] = useState<Nft[]>()
   const [openDialog, setOpenDialog] = useState<boolean>(false)
   const [isRegistered, setIsRegistered] = useState<boolean>(false)
 
@@ -41,14 +41,14 @@ const Home: NextPage = () => {
     setMounted(true)
   }, [])
 
-  // Get owned lilnouns
+  // Get owned mfbldrs
   useEffect(() => {
     const fetchNfts = async () => {
       const opensea = await fetch(`
-        https://api.opensea.io/api/v1/assets?owner=${address}&collection=lil-nouns&limit=50
+        https://api.opensea.io/api/v1/assets?owner=${address}&collection=mferbuilderdao&limit=50
       `)
       const nfts = await opensea.json()
-      setLilnouns(
+      setMfbldrs(
         nfts.assets.map((nft: any) => {
           return {
             name: nft.name,
@@ -81,22 +81,22 @@ const Home: NextPage = () => {
       return
     }
 
-    if (lilnouns && lilnouns?.length === 1) {
+    if (mfbldrs && mfbldrs?.length === 1) {
       claim.write?.()
     } else {
       setOpenDialog(true)
     }
   }
 
-  // Set tokenId of owned lilnoun if the connected wallet owns just 1
+  // Set tokenId of owned mfbldr if the connected wallet owns just 1
   useEffect(() => {
-    if (lilnouns && lilnouns.length > 0) {
-      setTokenId(lilnouns[0].tokenId)
+    if (mfbldrs && mfbldrs.length > 0) {
+      setTokenId(mfbldrs[0].tokenId)
     }
-  }, [lilnouns])
+  }, [mfbldrs])
 
   const claim = useContractWrite({
-    addressOrName: '0x27c4f6ff6935537c9cc05f4eb40e666d8f328918',
+    addressOrName: '0xa3d2BDC03A0e7Fd1641e9D718d80E1C1300Eb5F9',
     contractInterface: abi,
     functionName: 'claimSubdomain',
     chainId: 1,
@@ -106,17 +106,17 @@ const Home: NextPage = () => {
       const errMsg: string = error.message
 
       if (errMsg.includes('Not authorised')) {
-        toast.error("You don't own a Lil Noun")
+        toast.error("You don't own an MFBLDR token")
       } else if (errMsg.includes('sub-domain already exists')) {
-        toast.error(`${name}.lilnouns.eth already exists`)
+        toast.error(`${name}.mfbldr.eth already exists`)
       } else if (errMsg.includes('user rejected transaction')) {
         toast.error('Transaction rejected')
       } else if (errMsg.includes('Token has already been set')) {
-        const hasMultipleNouns = lilnouns && lilnouns.length > 1
+        const hasMultipleNouns = mfbldrs && mfbldrs.length > 1
 
         toast.error(
           `A name has already been claimed with ${
-            hasMultipleNouns ? 'this token' : 'your Lil Noun'
+            hasMultipleNouns ? 'this token' : 'your MFBLDR'
           }`,
           {
             style: {
@@ -154,17 +154,16 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>lilnouns.eth</title>
-        <meta property="og:title" content="lilnouns.eth" />
-        <meta name="description" content="Claim your lilnouns.eth subdomain" />
+        <title>mfbldr.eth</title>
+        <meta property="og:title" content="mfbldr.eth" />
+        <meta name="description" content="Claim your mfbldr.eth subdomain" />
         <meta
           property="og:description"
-          content="Claim your lilnouns.eth subdomain"
+          content="Claim your mfbldr.eth subdomain"
         />
-        <meta property="og:image" content="https://lil.domains/sharing.jpg" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@lilnounsdao" />
-        <meta name="twitter:creator" content="@gregskril" />
+        <meta name="twitter:site" content="@mferbuilderDAO" />
+        <meta name="twitter:creator" content="@0x1723" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {mounted && address && (
@@ -196,18 +195,18 @@ const Home: NextPage = () => {
       <main className="wrapper">
         <div className="container">
           <Heading className="title" level="1" align="center">
-            lilnouns.eth subdomain claim
+            mfbldr.eth subdomain claim
           </Heading>
           <form className="claim" onSubmit={(e) => handleFormSubmit(e)}>
             <Input
               label=""
               name="name"
-              placeholder="greg"
+              placeholder="mfer"
               disabled={claim.data ? true : false}
               maxLength={42}
               spellCheck={false}
               autoCapitalize="none"
-              suffix=".lilnouns.eth"
+              suffix=".mfbldr.eth"
               size="large"
               onChange={(e) => {
                 setName(e.target.value)
@@ -217,7 +216,7 @@ const Home: NextPage = () => {
               disabled={!tokenId}
               isLoading={claim.data && !isRegistered}
               txHash={claim.data?.hash}
-              claimText="You don't have a Lil Noun :/"
+              claimText="You don't have an MFBLDR :/"
             />
           </form>
         </div>
@@ -225,11 +224,11 @@ const Home: NextPage = () => {
 
       <footer className="footer">
         <a
-          href="https://twitter.com/gregskril"
+          href="https://twitter.com/0x1723"
           target="_blank"
           rel="noreferrer"
         >
-          @gregskril
+          @0x1723
         </a>
         <a
           href="https://github.com/gskril/lilnouns.eth"
@@ -243,7 +242,7 @@ const Home: NextPage = () => {
       <div className="modal">
         <Dialog
           open={openDialog}
-          title="Which Lil Noun do you want to use?"
+          title="Which MFBLDR do you want to use?"
           variant="closable"
           onDismiss={() => {
             if (isRegistered) {
@@ -264,7 +263,7 @@ const Home: NextPage = () => {
             }
           }}
         >
-          <Gallery nfts={lilnouns} tokenId={tokenId} setTokenId={setTokenId} />
+          <Gallery nfts={mfbldrs} tokenId={tokenId} setTokenId={setTokenId} />
           <MainButton
             isLoading={claim.data && !isRegistered}
             txHash={claim.data?.hash}
