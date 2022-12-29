@@ -231,7 +231,7 @@ const Home: NextPage = () => {
           @0x1723
         </a>
         <a
-          href="https://github.com/gskril/lilnouns.eth"
+          href="https://github.com/0x1723/mfbldr.eth"
           target="_blank"
           rel="noreferrer"
         >
