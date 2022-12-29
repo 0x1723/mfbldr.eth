@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:current-alpine3.17
 
 RUN apk add --no-cache git
 RUN mkdir -p /usr/src/app
